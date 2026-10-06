@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BMW India – Digital Showroom</title>
+<style>
+:root{--bg:#0b0d10;--panel:#12161b;--card:#181d23;--c2:#20262e;--tx:#f4f5f7;--mu:#9da5af;--bl:#0879d1;--bl2:#075ca0;--ok:#28c76f}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 "Segoe UI",system-ui,sans-serif}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer}
+:focus-visible{outline:2px solid var(--bl);outline-offset:2px}
+h1,h2,h3,p{margin:0}.mu{color:var(--mu)}
+.btn{background:var(--c2);border:0;border-radius:6px;padding:.65rem 1.1rem;font-weight:700}.btn:hover{background:#2a323c}
+.btn.p{background:var(--bl)}.btn.p:hover{background:var(--bl2)}
+input,select,textarea{width:100%;background:var(--c2);border:1px solid transparent;border-radius:6px;padding:.65rem .8rem}
+label{display:block;color:var(--mu);font-size:.75rem;font-weight:700;letter-spacing:.06em;margin:.8rem 0 .25rem}
+.login{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
+.lhero{background:#080a0d;display:grid;place-content:center;text-align:center;gap:.6rem;padding:2rem}
+.lhero svg{width:150px;margin:auto}.lhero h1{font-size:2.6rem;letter-spacing:.08em}.lhero b{color:var(--bl);letter-spacing:.2em;font-size:.8rem}
+.lcard{margin:auto;width:min(380px,90%);background:var(--panel);padding:2rem;border-radius:10px}
+.err{color:#ef5350;min-height:1.3em;font-size:.9rem}
+.top{display:flex;align-items:center;gap:.8rem;background:#080a0d;padding:.7rem 1.2rem}.top svg{width:44px}.top b{font-size:1.1rem}.top small{color:var(--bl);font-weight:700;letter-spacing:.15em;display:block;font-size:.65rem}.top span{margin-left:auto;color:var(--mu)}
+.body{display:grid;grid-template-columns:210px 1fr;min-height:calc(100vh - 62px)}
+nav{background:var(--panel);padding:.8rem .5rem;display:flex;flex-direction:column;gap:2px}
+nav button{background:none;border:0;text-align:left;padding:.5rem .9rem;border-radius:6px;font-weight:600;font-size:.9rem}nav button:hover,nav button.on{background:var(--c2)}
+nav .lo{margin-top:auto}
+main{padding:1.4rem 1.8rem;max-width:1100px}
+.ph{margin-bottom:1rem}.ph h2{font-size:1.5rem;letter-spacing:.03em}
+.hero{display:flex;align-items:center;gap:1rem;background:linear-gradient(120deg,#101820,#0a2a47);border-radius:14px;padding:1.5rem 2rem;overflow:hidden}
+.hero>div{flex:1}.hero h2{font-size:2rem;margin:.3rem 0 .6rem}.hero svg{width:min(340px,45%)}
+.hero small{color:var(--bl);font-weight:700;letter-spacing:.15em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;margin-top:1rem}
+.card{background:var(--card);border-radius:10px;padding:1rem 1.2rem}
+.q{cursor:pointer;text-align:left;border:0}.q:hover{background:var(--c2)}.q i{font-style:normal;color:var(--bl);font-size:1.5rem}
+.cfg{display:grid;grid-template-columns:1.1fr 1fr;gap:1rem}
+.mrow{display:flex;justify-content:space-between;align-items:center;width:100%;background:var(--card);border:2px solid transparent;border-radius:10px;padding:.9rem 1.1rem;margin-bottom:.6rem;text-align:left}
+.mrow:hover{background:var(--c2)}.mrow.on{border-color:var(--bl)}
+.panel{background:var(--panel);border-radius:12px;padding:1rem 1.2rem}
+.price{background:var(--c2);border-radius:8px;padding:.7rem 1rem;margin:1rem 0}.price b{font-size:1.6rem;display:block}
+.acts{display:flex;gap:.5rem;flex-wrap:wrap}
+.row{display:flex;align-items:center;gap:1rem;justify-content:space-between;background:var(--card);border-radius:10px;padding:.9rem 1.2rem;margin-bottom:.6rem;flex-wrap:wrap}
+.row.s{border-left:4px solid var(--bl)}
+.tot{text-align:right;font-size:1.4rem;font-weight:800;margin:.8rem 0}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.65);display:grid;place-items:center;z-index:9;padding:1rem}
+.md{background:var(--panel);border-radius:12px;padding:1.5rem;max-width:420px;width:100%;border:1px solid var(--c2)}.md h3{margin-bottom:.5rem}.md p{white-space:pre-line;color:#cfd5dc;margin-bottom:1rem}
+@media(max-width:800px){.login{grid-template-columns:1fr}.lhero{padding:1.2rem}.body{grid-template-columns:1fr}nav{flex-direction:row;overflow-x:auto}nav button{white-space:nowrap}nav .lo{margin:0}main{padding:1rem}.cfg{grid-template-columns:1fr}.hero{flex-direction:column}.hero svg{width:70%}}
+</style></head><body>
+<div id="app"></div>
+<script>
+const CARS={SUV:[["BMW X1",50.09],["BMW X3",72.5],["BMW X5",95.4],["BMW X7",128]],Sedan:[["BMW 3 Series",60],["BMW 5 Series",68],["BMW 7 Series",170]],Sports:[["BMW M4",153],["BMW M5",175]],Electric:[["BMW i4",72],["BMW iX",120]],Coupe:[["BMW 2 Series Coupe",43],["BMW 4 Series",72]]};
+const COL={Black:"#1d2127",Blue:"#0879d1",White:"#eceef1",Red:"#d12a2a"};
+const ACC={"No Accessories":0,Exhaust:2,"Sports Kit":3,"Turbo Kit":10};
+const CITY={Ahmedabad:5,Mumbai:7,Delhi:9,Bangalore:8,"Pan India":10};
+const LOGO='<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#fff" stroke="#333840" stroke-width="3"/><circle cx="50" cy="50" r="33" fill="#101318"/><path d="M50 50V18A32 32 0 0 1 82 50Z" fill="#0879d1"/><path d="M50 50V82A32 32 0 0 1 18 50Z" fill="#0879d1"/><path d="M50 50H18A32 32 0 0 1 50 18Z" fill="#fff"/><path d="M50 50H82A32 32 0 0 1 50 82Z" fill="#fff"/></svg>';
+const INFO={
+service:{t:"Service centers",s:"Find BMW service support by city.",r:[["Ahmedabad","SG Highway · BMW service & maintenance"],["Mumbai","Andheri · BMW service & maintenance"],["Delhi","Connaught Place · BMW service & maintenance"],["Bangalore","MG Road · BMW service & maintenance"]]},
+highway:{t:"Highway help",s:"Roadside assistance options.",b:"Request",r:[["Flat tyre","Technician will reach you within 30 minutes."],["Battery problem","Battery support has been dispatched."],["Out of fuel","Fuel tanker has been dispatched."]]},
+accident:{t:"Accident help",s:"Emergency and insurance support.",b:"Request",r:[["Emergency assistance","Emergency assistance has been contacted."],["Insurance claim","Insurance claim support has been initiated."],["Tow truck","Tow truck has been dispatched."]]},
+events:{t:"BMW events",s:"Experiences, track days and owner events.",b:"View",r:[["Auto Expo 2026","Delhi\nEntry fee: ₹5000"],["Track Day","Mumbai Race Track\nEntry fee: ₹15000\nRacing license required"],["Owners Meet","Ahmedabad\nBMW owners event"],["Electric Future Summit","Bangalore\nFree entry\nRegistration required"]]},
+motorsport:{t:"BMW Motorsport",s:"Performance, racing and engineering.",b:"Open",r:[["Racing categories","GT Racing\nTouring Car Racing\nFormula Racing\nEndurance Racing"],["Championship records","BMW has taken part in international touring, GT and endurance championships."],["Motorsport history","BMW Motorsport was set up to develop high-performance racing cars and technology."],["Global participation","BMW races in events across Europe, America and other regions."],["Racing technology","Aerodynamics\nLightweight materials\nHigh-performance engines\nAdvanced suspension"],["Rivals","Mercedes-AMG\nAudi Sport\nPorsche"]]},
+careers:{t:"BMW careers",s:"Explore opportunities across BMW.",b:"Apply",r:[["Internship","Students pursuing graduation or post-graduation"],["Engineering","Engineering degree with relevant technical skills"],["Design","Design degree and creative skills"],["Sales & Marketing","Marketing, business or communication skills"],["After-Sales / Service","Automobile or technical background"]]}};
+const NAV=[["dash","Home"],["cars","View cars"],["wish","Wishlist"],["cart","Cart"],["profile","Profile"],["admin","Admin panel"],["service","Service centers"],["highway","Highway help"],["accident","Accident help"],["support","Help & support"],["care","Customer care"],["events","BMW events"],["drive","Book test drive"],["motorsport","BMW Motorsport"],["careers","BMW careers"]];
+const S={user:"",cart:[],wish:[],orders:[]},V={seg:"SUV",m:"BMW X1",col:"Black",acc:"No Accessories"};
+const $=s=>document.querySelector(s),fmt=p=>"₹"+(+p.toFixed(2))+" Lakhs";
+const opts=(a,v)=>a.map(x=>`<option${x===v?" selected":""}>${x}</option>`).join("");
+const base=()=>(CARS[V.seg].find(c=>c[0]===V.m)||CARS[V.seg][0])[1];
+const price=()=>base()+ACC[V.acc];
+function car(seg,col,acc){const c=COL[col],r=seg==="SUV"?22:seg==="Sports"||seg==="Coupe"?40:32,sp=acc==="Sports Kit"||acc==="Turbo Kit";
+return `<svg viewBox="0 0 300 120"><ellipse cx="150" cy="108" rx="125" ry="7" fill="#000" opacity=".4"/><path d="M18 88V72Q22 62 62 58L98 ${r+8}Q110 ${r} 134 ${r}H188Q214 ${r+2} 230 56L268 62Q286 66 286 88Z" fill="${c}" stroke="#000" stroke-opacity=".35"/><path d="M106 ${r+10}Q114 ${r+5} 132 ${r+5}H148V56H100ZM156 ${r+5}H186Q204 ${r+7} 216 56H156Z" fill="#9fd0f5" opacity=".9"/><path d="M52 66H70M232 66H250" stroke="#fff" stroke-opacity=".5" stroke-width="3"/>${sp?'<path d="M258 60l14-16h12v7l-12 9z" fill="#111"/>':""}${acc==="Exhaust"||acc==="Turbo Kit"?'<rect x="280" y="84" width="14" height="5" rx="2" fill="#c9ccd1"/>':""}<g fill="#111" stroke="#555" stroke-width="2"><circle cx="78" cy="90" r="20"/><circle cx="226" cy="90" r="20"/></g><g fill="#c9ccd1"><circle cx="78" cy="90" r="9"/><circle cx="226" cy="90" r="9"/></g></svg>`}
+function msg(t,x){const o=document.createElement("div");o.className="ov";o.innerHTML=`<div class="md" role="dialog"><h3></h3><p></p><button class="btn p">OK</button></div>`;o.querySelector("h3").textContent=t;o.querySelector("p").textContent=x;o.onclick=e=>{if(e.target===o||e.target.tagName==="BUTTON")o.remove()};document.body.appendChild(o);o.querySelector("button").focus()}
+const head=(t,s)=>`<div class="ph"><h2>${t}</h2><p class="mu">${s}</p></div>`;
+const line=i=>`<b>${i.n}</b> <span class="mu">· ${i.c} · ${i.a} · ${fmt(i.p)}</span>`;
+function login(){$("#app").innerHTML=`<div class="login"><div class="lhero">${LOGO}<h1>BMW</h1><b>SHEER DRIVING PLEASURE</b><p class="mu">Your digital BMW showroom for cars, services and experiences.</p></div><form class="lcard" id="lf"><h2>Welcome back</h2><p class="mu">Sign in to BMW India</p><label for="u">USERNAME</label><input id="u" value="Vedant" autocomplete="off"><label for="pw">PASSWORD</label><input id="pw" type="password" value="1611"><p class="err" id="er"></p><button class="btn p" style="width:100%">Log in</button><p class="mu" style="font-size:.8rem;margin-top:.8rem">Demo login: Vedant / 1611</p></form></div>`;
+$("#lf").onsubmit=e=>{e.preventDefault();if($("#u").value==="Vedant"&&$("#pw").value==="1611"){S.user="Vedant";shell();go("dash")}else $("#er").textContent="Invalid username or password."}}
+function shell(){$("#app").innerHTML=`<div class="top">${LOGO}<div><b>BMW INDIA</b><small>DIGITAL SHOWROOM</small></div><span>Welcome, ${S.user}</span></div><div class="body"><nav>${NAV.map(n=>`<button data-go="${n[0]}">${n[1]}</button>`).join("")}<button class="lo" data-a="out">Log out</button></nav><main id="m"></main></div>`}
+function go(p){document.querySelectorAll("nav [data-go]").forEach(b=>b.classList.toggle("on",b.dataset.go===p));if(p==="care")return msg("BMW customer care","Phone: 1800-102-2269\nEmail: customercare@bmw.in\nTiming: 9 AM - 8 PM");$("#m").innerHTML=P[p]();scrollTo(0,0)}
+const P={
+dash:()=>`${head("BMW experience","Explore the range, configure a car and access BMW services.")}<div class="hero"><div><small>THE ULTIMATE</small><h2>BMW collection</h2><p class="mu" style="margin-bottom:1rem">Choose your model. Personalise it. Make it yours.</p><button class="btn p" data-go="cars">Explore cars</button></div>${car("Sports","Blue","No Accessories")}</div><div class="grid">${[["🚘","BMW models","Explore the range","cars"],["🛠","Road assist","Help when you need it","highway"],["▣","Test drive","Book a drive","drive"],["🏁","Motorsport","Performance & racing","motorsport"]].map(q=>`<button class="card q" data-go="${q[3]}"><i>${q[0]}</i><h3>${q[1]}</h3><p class="mu">${q[2]}</p></button>`).join("")}</div>`,
+cars:()=>`${head("BMW model range","Select a segment and configure your BMW.")}<label for="seg">SEGMENT</label><select id="seg" style="max-width:240px" onchange="V.seg=this.value;V.m=CARS[V.seg][0][0];go('cars')">${opts(Object.keys(CARS),V.seg)}</select><div class="cfg" style="margin-top:1rem"><div>${CARS[V.seg].map(c=>`<button class="mrow${c[0]===V.m?" on":""}" onclick="V.m='${c[0]}';go('cars')"><span><b>${c[0]}</b><br><small class="mu">From ${fmt(c[1])}</small></span><span style="width:90px">${car(V.seg,"White","No Accessories")}</span></button>`).join("")}</div><div class="panel"><div id="pic">${car(V.seg,V.col,V.acc)}</div><h2>${V.m}</h2><label for="col">COLOR</label><select id="col" onchange="cfg()">${opts(Object.keys(COL),V.col)}</select><label for="acc">ACCESSORIES</label><select id="acc" onchange="cfg()">${opts(Object.keys(ACC),V.acc)}</select><div class="price"><small class="mu">CONFIGURED PRICE</small><b id="pr">${fmt(price())}</b></div><div class="acts"><button class="btn" data-go="cart">View cart (${S.cart.length})</button><button class="btn" data-a="addw">♡ Wishlist</button><button class="btn p" data-a="addc">Add to cart</button></div></div></div>`,
+wish:()=>`${head("My wishlist","Cars saved for later.")}${S.wish.length?S.wish.map((i,x)=>`<div class="row"><span>${line(i)}</span><span class="acts"><button class="btn" data-a="rmw" data-v="${x}">Remove</button><button class="btn p" data-a="w2c" data-v="${x}">Move to cart</button></span></div>`).join(""):'<p class="mu">Your wishlist is empty. Save a car from View cars.</p>'}`,
+cart:()=>`${head("My cart","Review your selected BMW before purchase.")}${S.cart.length?S.cart.map((i,x)=>`<div class="row"><span>${line(i)}</span><span class="acts"><button class="btn" data-a="rmc" data-v="${x}">Remove</button><button class="btn p" data-a="buy" data-v="${x}">Proceed to buy</button></span></div>`).join("")+`<p class="tot">Total: ${fmt(S.cart.reduce((a,i)=>a+i.p,0))}</p>`:'<p class="mu">Your cart is empty. Add a car from View cars.</p>'}`,
+profile:()=>{const o=S.orders.at(-1);return head("My profile","Account and recent order information.")+`<div class="panel"><small class="mu">ACCOUNT</small><h2>${S.user}</h2></div>`+(o?`<h3 style="margin:1rem 0 .5rem">Last order</h3><div class="card">${[["Car",o.n],["Color",o.c],["Accessory",o.a],["Insurance",o.ins],["City",o.city],["Payment",o.pay],["Price",fmt(o.p)]].map(x=>`<p><span class="mu">${x[0]}:</span> ${x[1]}</p>`).join("")}</div>`:'<p class="mu" style="margin-top:1rem">No orders found.</p>')},
+admin:()=>`${head("Admin panel","BMW India management dashboard.")}<div class="grid">${[["🚘","CARS SOLD","10"],["₹","TOTAL SALES","₹15 Cr"],["👥","REGISTERED USERS","150"]].map(c=>`<div class="card" style="text-align:center"><i style="font-size:1.6rem">${c[0]}</i><p class="mu" style="font-size:.75rem">${c[1]}</p><h2>${c[2]}</h2></div>`).join("")}</div><div class="acts" style="margin-top:1rem"><button class="btn p" onclick="msg('Sales report','Total cars sold: 10\\nTotal sales: ₹15 Crore')">View sales report</button><button class="btn" onclick="msg('Users','Registered users: 150')">Registered users</button></div>`,
+support:()=>`${head("Help & support","Tell us what you need help with.")}<label for="iss">DESCRIBE YOUR ISSUE</label><textarea id="iss" rows="4"></textarea><button class="btn p" style="margin-top:1rem" data-a="sup">Submit request</button>`,
+drive:()=>`${head("Book a test drive","Choose your city, model and preferred slot.")}<div style="max-width:380px"><div style="width:260px">${car("Sedan","Blue","No Accessories")}</div><label>CITY</label><select id="tc">${opts(["Ahmedabad","Mumbai","Delhi","Bangalore"])}</select><label>MODEL</label><select id="tm">${opts(["BMW X1","BMW 3 Series","BMW M4","BMW i4"])}</select><label>DATE</label><select id="td">${opts(["Tomorrow","Day After Tomorrow","Weekend"])}</select><label>TIME</label><select id="tt">${opts(["10 AM","1 PM","4 PM"])}</select><label style="display:flex;gap:.5rem;align-items:center;margin:1rem 0"><input type="checkbox" id="lic" style="width:auto"> I have a valid driving license</label><button class="btn p" data-a="book">Book test drive</button></div>`,
+buy:()=>{const i=S.cart[V.b];return `${head("BMW purchase","Complete your vehicle configuration.")}<div style="max-width:420px"><div style="width:280px">${car(Object.keys(CARS).find(s=>CARS[s].some(c=>c[0]===i.n)),i.c,i.a)}</div><div class="card"><h3>${i.n}</h3><p class="mu">${i.c} · ${i.a} · ${fmt(i.p)}</p></div><label>DELIVERY CITY</label><select id="bc">${opts(Object.keys(CITY),"Ahmedabad")}</select><label>INSURANCE</label><select id="bi">${opts(["Basic","Premium"])}</select><label>PAYMENT</label><select id="bp" onchange="$('#dp').hidden=this.value!=='EMI'">${opts(["Full Payment","EMI"])}</select><div id="dp" hidden><label>DOWN PAYMENT (₹ LAKHS)</label><input id="bd" type="number" min="0" step="any"></div><button class="btn p" style="margin:1.2rem 0" data-a="conf">Confirm purchase</button></div>`}};
+Object.keys(INFO).forEach(k=>P[k]=()=>{const d=INFO[k];return head(d.t,d.s)+d.r.map((r,i)=>d.b?`<div class="row s"><b>${r[0]}</b><button class="btn${k==="highway"||k==="careers"?" p":""}" data-a="info" data-k="${k}" data-v="${i}">${d.b}</button></div>`:`<div class="row s"><span><b>${r[0]}</b><br><small class="mu">${r[1]}</small></span></div>`).join("")});
+function cfg(){V.col=$("#col").value;V.acc=$("#acc").value;$("#pic").innerHTML=car(V.seg,V.col,V.acc);$("#pr").textContent=fmt(price())}
+const item=()=>({n:V.m,p:price(),c:V.col,a:V.acc});
+const A={
+out:()=>{if(confirm("Are you sure you want to log out?")){S.cart=[];S.wish=[];S.orders=[];login()}},
+addc:()=>{S.cart.push(item());msg("Cart",`${V.m} added to cart!\n\n${V.col} · ${V.acc}\n${fmt(price())}`);go("cars")},
+addw:()=>{S.wish.push(item());msg("Wishlist",`${V.m} saved to wishlist!`);go("cars")},
+rmw:v=>{S.wish.splice(v,1);go("wish")},w2c:v=>{S.cart.push(S.wish.splice(v,1)[0]);msg("Cart","Car moved to cart!");go("wish")},
+rmc:v=>{S.cart.splice(v,1);go("cart")},buy:v=>{V.b=+v;$("#m").innerHTML=P.buy()},
+conf:()=>{const i=S.cart[V.b],tot=i.p+($("#bi").value==="Premium"?3:1),emi=$("#bp").value==="EMI";
+if(emi){const d=parseFloat($("#bd").value);if(isNaN(d))return msg("Error","Enter a valid down payment.");if(d<tot*.2)return msg("EMI",`Minimum 20% down payment required (${fmt(tot*.2)}).`)}
+S.orders.push({n:i.n,p:tot,c:i.c,a:i.a,ins:$("#bi").value,city:$("#bc").value,pay:$("#bp").value});S.cart.splice(V.b,1);
+msg("Order confirmed",`${i.n} purchased successfully!\n\nTotal price: ${fmt(tot)}\nDelivery: ${CITY[$("#bc").value]} days`);go("dash")},
+sup:()=>{if(!$("#iss").value.trim())return msg("Support","Please enter your issue.");msg("Support","Your issue has been recorded.\nOur support team will contact you.");go("dash")},
+book:()=>{if(!$("#lic").checked)return msg("Test drive","A valid driving license is required.");msg("Test drive booked!",`City: ${$("#tc").value}\nModel: ${$("#tm").value}\nDate: ${$("#td").value}\nTime: ${$("#tt").value}`);go("dash")},
+info:(v,e)=>{const k=e.dataset.k,r=INFO[k].r[v];msg(r[0],k==="careers"?`Position: ${r[0]}\n\nEligibility: ${r[1]}\n\nApplication submitted successfully!`:r[1])}};
+document.addEventListener("click",e=>{const g=e.target.closest("[data-go]");if(g)return go(g.dataset.go);const a=e.target.closest("[data-a]");if(a)A[a.dataset.a](a.dataset.v,a)});
+login();
+</script></body></html>
